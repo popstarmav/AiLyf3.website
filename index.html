@@ -1,50 +1,367 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AiLyf3 Tech</title>
-
-  <!-- CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial; margin:0; background:#f5f5f5; }
-    header { background:#111; color:white; padding:20px; text-align:center; }
-    nav { background:#222; text-align:center; padding:10px; }
-    nav a { color:white; margin:10px; text-decoration:none; }
-    nav a:hover { color:#00bcd4; }
-    .container { max-width:1000px; margin:auto; padding:15px; }
-    .box { background:white; padding:15px; margin:15px 0; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-    button { background:#111; color:white; padding:10px; border:none; border-radius:5px; }
-    button:hover { background:#333; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --accent: #00e5ff;
+      --accent2: #7b2ff7;
+      --text: #f0f0f5;
+      --muted: #888899;
+      --card: #16161f;
+      --border: rgba(0,229,255,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--text); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 6rem 2.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(123,47,247,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,229,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(0,229,255,0.1);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.8rem;
+      width: fit-content;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 800px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 480px;
+      line-height: 1.7;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(0,229,255,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(0,229,255,0.4); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* STATS */
+    .stats {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+      padding: 2rem 2.5rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .stat { text-align: center; flex: 1; min-width: 120px; }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* SERVICES PREVIEW */
+    .section {
+      padding: 5rem 2.5rem;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 3rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+    }
+    .service-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .service-card:hover { transform: translateY(-4px); border-color: rgba(0,229,255,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .service-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .service-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+    .service-price {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* CTA BAND */
+    .cta-band {
+      margin: 0 2.5rem 5rem;
+      background: linear-gradient(135deg, rgba(0,229,255,0.07), rgba(123,47,247,0.1));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .cta-band h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .cta-band p { color: var(--muted); margin-top: 0.5rem; font-size: 0.95rem; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      nav ul { gap: 1rem; }
+      .hero { padding: 5rem 1.5rem 3rem; }
+      .stats { padding: 2rem 1.5rem; gap: 1.5rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .cta-band { margin: 0 1.5rem 3.5rem; padding: 2rem; }
+      footer { padding: 1.5rem; }
+    }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>AiLyf3 Tech</h1>
-  <p>Computer, Phone, WiFi & Security Help in Tulsa</p>
-</header>
-
 <nav>
-  <a href="index.html">Home</a>
-  <a href="services.html">Services</a>
-  <a href="booking.html">Book</a>
-  <a href="contact.html">Contact</a>
+  <a class="nav-logo" href="index.html">Ai<span>Lyf3</span></a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="booking.html">Book</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
 </nav>
 
-<div class="container">
-
-  <div class="box">
-    <h2>Fast Tech Help</h2>
-    <p>We fix computers, phones, WiFi, and security systems.</p>
-    <a href="booking.html"><button>Book Now</button></a>
+<section class="hero">
+  <div class="hero-tag">📍 Tulsa, OK — Available Now</div>
+  <h1>Fast, Reliable<br><em>Tech Solutions</em><br>You Can Trust</h1>
+  <p>Servers, phones, WiFi, security & web development. Charles Johnson brings professional-grade IT support to individuals and small businesses.</p>
+  <div class="hero-btns">
+    <a href="booking.html" class="btn-primary">Book a Session</a>
+    <a href="services.html" class="btn-secondary">View Services</a>
   </div>
+</section>
 
-  <div class="box">
-    <h2>Emergency Help</h2>
-    <p>Fast response when something breaks.</p>
-  </div>
-
+<div class="stats">
+  <div class="stat"><div class="stat-num">6+</div><div class="stat-label">Services Offered</div></div>
+  <div class="stat"><div class="stat-num">Fast</div><div class="stat-label">Response Time</div></div>
+  <div class="stat"><div class="stat-num">$40+</div><div class="stat-label">Starting Rate/hr</div></div>
+  <div class="stat"><div class="stat-num">Tulsa</div><div class="stat-label">Based & Local</div></div>
 </div>
+
+<section class="section">
+  <div class="section-label">What We Do</div>
+  <h2 class="section-title">Services Built for Real Problems</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🖥️</div>
+      <h3>Server & Computer Repair</h3>
+      <p>Setup, administration, slow machine fixes, Linux installs and more.</p>
+      <div class="service-price">From $50/hr</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <h3>Phone & Device Help</h3>
+      <p>Troubleshoot phones, apps, and device configuration clearly explained.</p>
+      <div class="service-price">From $40/hr</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌐</div>
+      <h3>WiFi & Networking</h3>
+      <p>Router setup, internet issues, and full network troubleshooting.</p>
+      <div class="service-price">From $60/hr</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔒</div>
+      <h3>Security & Cyber Protection</h3>
+      <p>Firewall setup, cybersecurity basics, and data protection strategies.</p>
+      <div class="service-price">From $60/hr</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💻</div>
+      <h3>Web Development</h3>
+      <p>React, TypeScript, HTML/CSS — modern sites that work and look great.</p>
+      <div class="service-price">From $500/project</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">☁️</div>
+      <h3>Cloud Services (AWS)</h3>
+      <p>Cloud setup, deployment pipelines, and infrastructure management.</p>
+      <div class="service-price">From $75/hr</div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div>
+    <h2>Something broken? Let's fix it.</h2>
+    <p>Fast emergency response available. Call or book online.</p>
+  </div>
+  <a href="contact.html" class="btn-primary">Get in Touch</a>
+</div>
+
+<footer>
+  <span>© 2025 AiLyf3 Tech — Charles Johnson, Tulsa OK</span>
+  <span><a href="tel:9183017063">(918) 301-7063</a> · <a href="mailto:cj.johnson2017@gmail.com">cj.johnson2017@gmail.com</a></span>
+</footer>
 
 </body>
 </html>
