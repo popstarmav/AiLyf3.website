@@ -1,31 +1,300 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Contact</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — AiLyf3 Tech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial; margin:0; background:#f5f5f5; }
-    header { background:#111; color:white; padding:20px; text-align:center; }
-    .container { max-width:600px; margin:auto; padding:15px; }
-    .box { background:white; padding:15px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --bg2: #111118; --accent: #00e5ff; --accent2: #7b2ff7;
+      --text: #f0f0f5; --muted: #888899; --card: #16161f; --border: rgba(0,229,255,0.15);
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(10,10,15,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--accent); text-decoration: none; }
+    .nav-logo span { color: var(--text); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    nav ul a:hover { color: var(--accent); }
+
+    .page-hero {
+      padding: 8rem 2.5rem 3rem;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; top: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+      border-radius: 50%; pointer-events: none;
+    }
+    .page-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+    .page-hero h1 {
+      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800; letter-spacing: -1.5px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .page-hero h1 em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .page-hero p { color: var(--muted); margin-top: 1rem; max-width: 460px; line-height: 1.7; font-size: 1rem; animation: fadeUp 0.7s 0.1s ease both; }
+
+    .contact-body {
+      padding: 3rem 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* LEFT — contact cards */
+    .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+
+    .contact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem 1.8rem;
+      display: flex; align-items: center; gap: 1.2rem;
+      text-decoration: none; color: var(--text);
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .contact-card:hover { transform: translateX(4px); border-color: rgba(0,229,255,0.3); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .contact-card:hover::before { opacity: 1; }
+
+    .cc-icon {
+      width: 48px; height: 48px;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .cc-label { font-size: 0.75rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .cc-value { font-size: 1rem; font-weight: 500; color: var(--text); }
+
+    .availability-card {
+      background: linear-gradient(135deg, rgba(0,229,255,0.05), rgba(123,47,247,0.08));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.8rem;
+      margin-top: 0.5rem;
+    }
+    .availability-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+    .avail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.88rem;
+    }
+    .avail-row:last-child { border-bottom: none; }
+    .avail-row .day { color: var(--muted); }
+    .avail-row .time { color: var(--text); font-weight: 500; }
+    .badge-open {
+      background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2);
+      color: var(--accent); font-size: 0.7rem; font-weight: 700;
+      padding: 0.15rem 0.6rem; border-radius: 100px; letter-spacing: 0.05em;
+    }
+
+    /* RIGHT — form */
+    .contact-form-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+    }
+    .contact-form-wrap h2 {
+      font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+    .contact-form-wrap p { color: var(--muted); font-size: 0.88rem; margin-bottom: 2rem; }
+
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    input, textarea, select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,229,255,0.1);
+    }
+    select option { background: #16161f; }
+    textarea { resize: vertical; min-height: 110px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent); color: #0a0a0f;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      padding: 0.9rem;
+      border: none; border-radius: 8px; cursor: pointer;
+      margin-top: 0.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(0,229,255,0.25);
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(0,229,255,0.4); }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; color: var(--muted); font-size: 0.85rem;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 800px) {
+      nav ul { gap: 1rem; }
+      .page-hero { padding: 6rem 1.5rem 2rem; }
+      .contact-body { grid-template-columns: 1fr; padding: 2rem 1.5rem 4rem; gap: 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem; }
+    }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Contact AiLyf3</h1>
-</header>
+<nav>
+  <a class="nav-logo" href="index.html">Ai<span>Lyf3</span></a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="booking.html">Book</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
-<div class="container">
+<div class="page-hero">
+  <div class="page-label">Get In Touch</div>
+  <h1>Systematic Solutions<em>Consulting Services</em></h1>
+  <p>Reach out directly or fill in the form. Fast response, clear communication — every time.</p>
+</div>
 
-  <div class="box">
-    <p>Phone: Your Number</p>
-    <p>Email: Your Email</p>
-    <p>Fast tech support in Tulsa.</p>
+<div class="contact-body">
+
+  <!-- LEFT -->
+  <div>
+    <div class="contact-cards">
+
+      <a href="tel:9183017063" class="contact-card">
+        <div class="cc-icon">📞</div>
+        <div>
+          <div class="cc-label">Phone</div>
+          <div class="cc-value">(918) 301-7063</div>
+        </div>
+      </a>
+
+      <a href="mailto:cj.johnson2017@gmail.com" class="contact-card">
+        <div class="cc-icon">✉️</div>
+        <div>
+          <div class="cc-label">Email</div>
+          <div class="cc-value">cj.johnson2017@gmail.com</div>
+        </div>
+      </a>
+
+      <a href="https://linkedin.com/in/cj-johnson47" target="_blank" class="contact-card">
+        <div class="cc-icon">💼</div>
+        <div>
+          <div class="cc-label">LinkedIn</div>
+          <div class="cc-value">linkedin.com/in/cj-johnson47</div>
+        </div>
+      </a>
+
+      <a href="https://popstarmav.github.io/mywebsite/" target="_blank" class="contact-card">
+        <div class="cc-icon">🌐</div>
+        <div>
+          <div class="cc-label">Portfolio</div>
+          <div class="cc-value">popstarmav.github.io/mywebsite</div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="availability-card" style="margin-top:1.2rem;">
+      <h3>📍 Tulsa, OK — Availability</h3>
+      <div class="avail-row"><span class="day">Mon – Fri</span><span class="time">9 AM – 7 PM</span><span class="badge-open">Open</span></div>
+      <div class="avail-row"><span class="day">Saturday</span><span class="time">10 AM – 5 PM</span><span class="badge-open">Open</span></div>
+      <div class="avail-row"><span class="day">Emergency</span><span class="time">Call anytime</span><span class="badge-open">Available</span></div>
+    </div>
+  </div>
+
+  <!-- RIGHT — Form -->
+  <div class="contact-form-wrap">
+    <h2>Send a Message</h2>
+    <p>Describe your issue and I'll get back to you quickly.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" placeholder="John Smith" />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" placeholder="(918) 000-0000" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="you@email.com" />
+    </div>
+
+    <div class="form-group">
+      <label for="service">Service Needed</label>
+      <select id="service">
+        <option value="">Select a service...</option>
+        <option>Server Setup & Administration</option>
+        <option>Computer Repair & Optimization</option>
+        <option>Phone & Device Support</option>
+        <option>WiFi & Network Setup</option>
+        <option>Cybersecurity & Protection</option>
+        <option>Cloud Services (AWS)</option>
+        <option>Web Development</option>
+        <option>Other / Not Sure</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="message">Describe Your Issue</label>
+      <textarea id="message" placeholder="Tell me what's going on — the more detail the better..."></textarea>
+    </div>
+
+    <button class="btn-submit" onclick="alert('Message sent! Charles will get back to you shortly.')">Send Message →</button>
   </div>
 
 </div>
+
+<footer>
+  <span>© 2025 AiLyf3 Tech — Charles Johnson, Tulsa OK</span>
+  <span><a href="tel:9183017063">(918) 301-7063</a> · <a href="mailto:cj.johnson2017@gmail.com">cj.johnson2017@gmail.com</a></span>
+</footer>
 
 </body>
 </html>
